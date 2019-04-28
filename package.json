@@ -1,0 +1,17 @@
+{
+  "name": "ieettool",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "geckodriver": "^1.16.2",
+    "jsonexport": "^2.4.1",
+    "request-promise": "^4.2.4",
+    "selenium-webdriver": "^4.0.0-alpha.1"
+  }
+}
