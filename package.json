@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "portal": "node portal.js lendle len1028 邏輯電路設計 期中考",
+    "github": "node github.js lendle1028 len10281 視窗程式設計 '107 Final'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

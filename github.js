@@ -1,11 +1,12 @@
 require('geckodriver');
-const jsonexport = require('jsonexport');
+//const jsonexport = require('jsonexport');
 const request = require('request-promise');
 const fs = require('fs');
-// var username=process.argv[2];
-// var password=process.argv[3];
-// var course=process.argv[4];
-// var examType=process.argv[5];
+
+var username=process.argv[2];
+var password=process.argv[3];
+var course=process.argv[4];
+var examName=process.argv[5];
 
 var webdriver = require('selenium-webdriver'),
     By = webdriver.By,
@@ -86,50 +87,7 @@ async function prepareDownloads() {
                     wstream.write(buffer);
                     wstream.end();
                 }
-                /*await driver.wait(until.elementLocated(By.xpath("//a[text()='View repository']"), 600000));
-                let elements = await driver.findElements(By.xpath("//a[text()='View repository']"));
-                //collect urls for students
-                let urls = [];
-                for (let link of elements) {
-                    let href = await link.getAttribute("href");
-                    let values = href.split("/");
-                    let owner = values[values.length - 2];
-                    let repo = values[values.length - 1];
-                    urls.push("https://api.github.com/repos/" + owner + "/" + repo + "/zipball");
-                }
-                //collect student names
-                let names = [];
-                await driver.wait(until.elementLocated(By.className("assignment-repo-github-url"), 600000));
-                let assignments = await driver.findElements(By.className("assignment-repo-github-url"));
-                for (let assignment of assignments) {
-                    let id = await assignment.getText();
-                    id = "@" + id;
-                    let name = null;
-                    for (let s of roster) {
-                        if (s.id == id) {
-                            name = s.name;
-                            break;
-                        }
-                    }
-                    console.log(name);
-                    names.push(name);
-                }
-                for (let i = 0; i < urls.length; i++) {
-                    console.log(urls[i]);
-                    let download = await request.get({
-                        uri: urls[i],
-                        encoding: null,
-                        headers: {
-                            'User-Agent': 'gecko',
-                            'Content-type': "application/zip"
-                        },
-                        resolveWithFullResponse: true
-                    });
-                    let buffer = Buffer.from(download.body);
-                    let wstream = fs.createWriteStream(names[i] + '.zip');
-                    wstream.write(buffer);
-                    wstream.end();
-                }*/
+               
             }, function(){
                 driver.quit();
             }
@@ -139,11 +97,11 @@ async function prepareDownloads() {
 async function main() {
     driver.get('https://classroom.github.com/login');
     await driver.wait(until.elementLocated(By.className("btn-primary"), 600000));
-    await driver.findElement(By.id('login_field')).sendKeys("lendle1028");
-    await driver.findElement(By.id('password')).sendKeys("len10281");
+    await driver.findElement(By.id('login_field')).sendKeys(username);
+    await driver.findElement(By.id('password')).sendKeys(password);
     await driver.findElement(By.className("btn-primary")).click();
-    await driver.wait(until.elementLocated(By.xpath("//h1[text()='視窗程式設計']"), 600000));
-    let element = await driver.findElement(By.xpath("//h1[text()='視窗程式設計']"));
+    await driver.wait(until.elementLocated(By.xpath("//h1[text()='"+course+"']"), 600000));
+    let element = await driver.findElement(By.xpath("//h1[text()='"+course+"']"));
     element.click();
     await driver.wait(until.elementLocated(By.xpath("//a[text()='Manage classroom']"), 600000));
     element = await driver.findElement(By.xpath("//a[text()='Manage classroom']"));
@@ -167,10 +125,10 @@ async function main() {
         }
     }, async function () {
         console.log(roster);
-        let element = await driver.findElement(By.xpath("//a[text()='視窗程式設計']"));
+        let element = await driver.findElement(By.xpath("//a[text()='"+course+"']"));
         element.click();
-        await driver.wait(until.elementLocated(By.xpath("//a[text()='107 Final']"), 600000));
-        element = await driver.findElement(By.xpath("//a[text()='107 Final']"));
+        await driver.wait(until.elementLocated(By.xpath("//a[text()='"+examName+"']"), 600000));
+        element = await driver.findElement(By.xpath("//a[text()='"+examName+"']"));
         element.click();
         setTimeout(prepareDownloads, 500);
     });
