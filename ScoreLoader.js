@@ -81,10 +81,12 @@ class ScoreLoader {
     }
 }
 
-let scoreLoader=new ScoreLoader("lendle", "len1028");
-scoreLoader.getScores("邏輯電路設計", "期中考", function(results){
-    console.log(results);
-});
+module.exports=ScoreLoader;
+
+// let scoreLoader=new ScoreLoader("lendle", "len1028");
+// scoreLoader.getScores("邏輯電路設計", "期中考", function(results){
+//     console.log(results);
+// });
 
 // var username = process.argv[2];
 // var password = process.argv[3];
