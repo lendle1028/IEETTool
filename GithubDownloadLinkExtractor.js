@@ -76,9 +76,12 @@ class GithubDownloadLinkExtractor {
                             let owner = values[values.length - 4];
                             let repo = values[values.length - 3];
                             let url = "https://api.github.com/repos/" + owner + "/" + repo + "/zipball";
+                            let studentId=(name.indexOf(",")!=-1)?name.substring(0, name.indexOf(",")):"";
                             result.push({
                                 id: id.substring(1),
-                                url: url
+                                url: url,
+                                name: name.substring(name.indexOf(",")+1),
+                                studentId: studentId
                             });
                         }
 
