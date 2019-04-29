@@ -59,7 +59,8 @@ class ScoreLoader {
                             results.push({
                                 id: await tds[1].getText(),
                                 name: await tds[2].getText(),
-                                score: await tds[5].getText()
+                                score: await tds[5].getText(),
+                                level: ""
                             });
                         }
                     }
@@ -69,6 +70,20 @@ class ScoreLoader {
                     results.sort(function (o1, o2) {
                         return parseFloat(o1.score) - parseFloat(o2.score);
                     });
+
+                    if(results.length>=15){
+                        for(let i=0; i<5; i++){
+                            results[i].level="低";
+                        }
+                        for(let i=results.length-5; i<results.length; i++){
+                            results[i].level="高";
+                        }
+                        let mid=Math.ceil(results.length/2);
+                        for(let i=mid-2; i<=mid+2; i++){
+                            results[i].level="中";
+                        }
+                    }
+
                     jsonexport(results, function (err, csv) {
                         if (err) return console.log(err);
                         //console.log(csv);
