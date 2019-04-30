@@ -1,5 +1,4 @@
 require('geckodriver');
-const jsonexport = require('jsonexport');
 
 class ScoreLoader {
     constructor(username, password) {
@@ -83,11 +82,6 @@ class ScoreLoader {
                             results[i].level="中";
                         }
                     }
-
-                    jsonexport(results, function (err, csv) {
-                        if (err) return console.log(err);
-                        //console.log(csv);
-                    });
 
                     driver.quit();
                     resolve(results);
