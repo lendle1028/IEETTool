@@ -1,9 +1,10 @@
 require('geckodriver');
 
 class ScoreLoader {
-    constructor(username, password) {
+    constructor(username, password, groupThreshold = 5) {
         this.username = username;
         this.password = password;
+        this.groupThreshold = groupThreshold;
     }
 
     getScores(courseName, examName) {
@@ -11,6 +12,7 @@ class ScoreLoader {
         let password = this.password;
         let course = courseName;
         let examType = examName;
+        let groupThreshold=this.groupThreshold;
         return new Promise(function (resolve, reject) {
             let main = async function () {
                 try {
@@ -47,7 +49,8 @@ class ScoreLoader {
                             results.push({
                                 id: await tds[1].getText(),
                                 name: await tds[2].getText(),
-                                score: await tds[5].getText()
+                                score: await tds[5].getText(),
+                                level: ""
                             });
                         }
                     }
@@ -70,22 +73,27 @@ class ScoreLoader {
                         return parseFloat(o1.score) - parseFloat(o2.score);
                     });
 
-                    if(results.length>=15){
-                        for(let i=0; i<5; i++){
-                            results[i].level="低";
+                    if (results.length >= 3 * groupThreshold) {
+                        for (let i = 0; i < groupThreshold; i++) {
+                            results[i].level = "低";
                         }
-                        for(let i=results.length-5; i<results.length; i++){
-                            results[i].level="高";
+                        for (let i = results.length - groupThreshold; i < results.length; i++) {
+                            results[i].level = "高";
                         }
-                        let mid=Math.ceil(results.length/2);
-                        for(let i=mid-2; i<=mid+2; i++){
-                            results[i].level="中";
+                        let mid = Math.ceil(results.length / 2);
+                        let offset = Math.floor(groupThreshold / 2);
+                        //console.log("offset="+offset+", mid="+mid);
+                        for (let i = mid - offset; i <= mid + offset; i++) {
+                            //console.log(results[i].level);
+                            if (results[i].level.length==0) {
+                                results[i].level = "中";
+                            }
                         }
                     }
 
                     driver.quit();
                     resolve(results);
-                } catch (e) { 
+                } catch (e) {
                     reject(e);
                 }
             }
