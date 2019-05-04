@@ -2,8 +2,9 @@
   "name": "ieettool",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
+    "start": "electron .",
     "portal": "node portal.js lendle len1028 邏輯電路設計 期中考",
     "github": "node github.js lendle1028 len10281 視窗程式設計 '107 Final'",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,7 +12,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "electron": "^4.2.0",
     "geckodriver": "^1.16.2",
+    "jquery": "^3.4.1",
     "jsonexport": "^2.4.1",
     "request-promise": "^4.2.4",
     "selenium-webdriver": "^4.0.0-alpha.1",

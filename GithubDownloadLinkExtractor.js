@@ -1,22 +1,25 @@
-require('geckodriver');
+//require('geckodriver');
 const request = require('request-promise');
 const fs = require('fs');
 
 class GithubDownloadLinkExtractor {
-    constructor(username, password) {
+    constructor(username, password, browser="firefox") {
         this.username = username;
         this.password = password;
+        this.browser=browser;
     }
 
     getDownloadLinks(course, examName, returnCallback) {
         var username = this.username;
         var password = this.password;
+        let browser=this.browser;
         var webdriver = require('selenium-webdriver'),
             By = webdriver.By,
             until = webdriver.until;
 
         var driver = new webdriver.Builder()
-            .forBrowser('firefox')
+            .forBrowser(browser)
+            //.usingServer("http://localhost:4444/wd/hub")
             .build();
 
         let visibleUrlCount = -1;

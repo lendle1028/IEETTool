@@ -1,10 +1,11 @@
-require('geckodriver');
+//require('geckodriver');
 
 class ScoreLoader {
-    constructor(username, password, groupThreshold = 5) {
+    constructor(username, password, groupThreshold = 5, browser="firefox") {
         this.username = username;
         this.password = password;
         this.groupThreshold = groupThreshold;
+        this.browser=browser;
     }
 
     getScores(courseName, examName) {
@@ -13,6 +14,7 @@ class ScoreLoader {
         let course = courseName;
         let examType = examName;
         let groupThreshold=this.groupThreshold;
+        let browser=this.browser;
         return new Promise(function (resolve, reject) {
             let main = async function () {
                 try {
@@ -21,25 +23,29 @@ class ScoreLoader {
                         until = webdriver.until;
 
                     var driver = new webdriver.Builder()
-                        .forBrowser('firefox')
+                        .forBrowser(browser)
+                        //.usingServer("http://localhost:4444/wd/hub")
                         .build();
 
-                    driver.get('https://portalx.yzu.edu.tw/PortalSocialVB/Login.aspx');
-                    driver.findElement(By.id('Txt_UserID')).sendKeys(username);
-                    driver.findElement(By.id('Txt_Password')).sendKeys(password);
-                    driver.findElement(By.id("ibnSubmit")).click();
-                    await driver.wait(until.elementLocated(By.xpath("//div[@id='MainLeftMenu_divMyPage']/table/tbody/tr/td"), 600000));
+                    await driver.get('https://portalx.yzu.edu.tw/PortalSocialVB/Login.aspx');
+                    let element=await driver.findElement(By.id('Txt_UserID'));
+                    await element.sendKeys(username);
+                    element=await driver.findElement(By.id('Txt_Password'));
+                    await element.sendKeys(password);
+                    element=await driver.findElement(By.id('ibnSubmit'));
+                    await element.click();
+                    await driver.wait(until.elementLocated(By.xpath("//div[@id='MainLeftMenu_divMyPage']/table/tbody/tr/td"), 900000));
                     let elements = await driver.findElements(By.xpath("//div[@id='MainLeftMenu_divMyPage']/table/tbody/tr/td[text()='" + course + "']"));
                     let td = elements[0];
                     td.click();
-                    await driver.wait(until.elementLocated(By.id("divMenuSco"), 600000));
+                    await driver.wait(until.elementLocated(By.id("divMenuSco"), 900000));
                     let divMenuSco = await driver.findElement(By.id("divMenuSco"));
                     divMenuSco.click();
-                    await driver.wait(until.elementLocated(By.xpath("//a[text()='" + examType + "']"), 600000));
+                    await driver.wait(until.elementLocated(By.xpath("//a[text()='" + examType + "']"), 900000));
                     elements = await driver.findElements(By.xpath("//a[text()='" + examType + "']"));
                     let exam = await elements[0];
                     exam.click();
-                    await driver.wait(until.elementLocated(By.className("record2"), 600000));
+                    await driver.wait(until.elementLocated(By.className("record2"), 900000));
                     let record2s = await driver.findElements(By.className("record2"));
                     let hi_lines = await driver.findElements(By.className("hi_line"));
                     let results = [];

@@ -1,11 +1,29 @@
-
+window.$=require('jquery');
+const remote=require('electron').remote;
+const main=remote.require('./main');
+$(document).ready(function(){
+    let options={
+        portalUserName: $("#portalUserName").val(),
+        portalPassword: $("#portalPassword").val(),
+        portalCourseName: $("#portalCourseName").val(),
+        portalExamType: $("#portalExamType").val(),
+        githubUserName: $("#githubUserName").val(),
+        githubPassword: $("#githubPassword").val(),
+        githubCourseName: $("#githubCourseName").val(),
+        githubExamName: $("#githubExamName").val(),
+        driver: $("#driver").val()
+    };
+    $("#goButton").click(function(){
+        main.execute(options);
+    });
+});
+/*
 const GithubDownloadLinkExtractor=require("./GithubDownloadLinkExtractor");
 const ScoreLoader=require("./ScoreLoader");
 const fs=require("fs");
 const path=require("path");
 const jsonexport = require('jsonexport');
 const request = require('request-promise');
-require('geckodriver');
 
 const GROUP_THRESHOLD=5;//if number of students >= 3*GROUP_THRESHOLD, then do grouping
 let scoreLoader=new ScoreLoader("lendle", "len1028", GROUP_THRESHOLD);
@@ -77,7 +95,7 @@ scoreLoader.getScores(courseNamePortal, "期中考")
         }
     });
 
-
+*/
 //服務導向@YZU
 
 // scoreLoader.getScores("邏輯電路設計", "期中考")

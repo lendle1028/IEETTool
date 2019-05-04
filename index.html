@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+
+<body>
+    Portal UserName: <input type="text" id="portalUserName" value="lendle"/><br />
+    Portal Password: <input type="password" id="portalPassword" value="len1028"/><br />
+    Portal CourseName: <input type="text" id="portalCourseName" value="服務導向架構程式設計"/><br />
+    Portal ExamType: <select id="portalExamType">
+        <option value="期中考" selected="selected">期中考</option>
+        <option value="期末考">期末考</option>
+    </select><br />
+    <hr />
+    Github UserName: <input type="text" id="githubUserName" value="lendle1028"/><br />
+    Github Password: <input type="password" id="githubPassword" value="len10281"/><br />
+    Github CourseName: <input type="text" id="githubCourseName" value="服務導向@YZU"/><br />
+    Github ExamName: <input type="text" id="githubExamName" value="Midterm"/><br />
+    <hr />
+    Browser Type: <select id="driver">
+        <option value="chromedriver">Chrome</option>
+        <option value="geckodriver" selected="selected">Firefox</option>
+    </select><br />
+    <script>
+        require('./index_electron.js');
+    </script>
+    <button id="goButton">GO</button>
+</body>
+
+</html>
