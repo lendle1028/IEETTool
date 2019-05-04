@@ -3,24 +3,27 @@ const request = require('request-promise');
 const fs = require('fs');
 
 class GithubDownloadLinkExtractor {
-    constructor(username, password, browser="firefox") {
+    constructor(username, password, browser="firefox", usingServer=false) {
         this.username = username;
         this.password = password;
         this.browser=browser;
+        this.usingServer=usingServer;
     }
 
     getDownloadLinks(course, examName, returnCallback) {
         var username = this.username;
         var password = this.password;
         let browser=this.browser;
+        let usingServer=this.usingServer;
         var webdriver = require('selenium-webdriver'),
             By = webdriver.By,
             until = webdriver.until;
-
-        var driver = new webdriver.Builder()
-            .forBrowser(browser)
-            //.usingServer("http://localhost:4444/wd/hub")
-            .build();
+        var builder=new webdriver.Builder();
+        builder.forBrowser(browser);
+        if(usingServer){
+            builder.usingServer("http://localhost:4444/wd/hub");
+        }
+        var driver=builder.build();
 
         let visibleUrlCount = -1;
         let roster = [];

@@ -1,11 +1,12 @@
 //require('geckodriver');
 
 class ScoreLoader {
-    constructor(username, password, groupThreshold = 5, browser="firefox") {
+    constructor(username, password, groupThreshold = 5, browser="firefox", usingServer=false) {
         this.username = username;
         this.password = password;
         this.groupThreshold = groupThreshold;
         this.browser=browser;
+        this.usingServer=usingServer;
     }
 
     getScores(courseName, examName) {
@@ -15,17 +16,20 @@ class ScoreLoader {
         let examType = examName;
         let groupThreshold=this.groupThreshold;
         let browser=this.browser;
+        let usingServer=this.usingServer;
         return new Promise(function (resolve, reject) {
             let main = async function () {
                 try {
                     var webdriver = require('selenium-webdriver'),
                         By = webdriver.By,
                         until = webdriver.until;
-
-                    var driver = new webdriver.Builder()
-                        .forBrowser(browser)
-                        //.usingServer("http://localhost:4444/wd/hub")
-                        .build();
+                    let builder=new webdriver.Builder();
+                    builder.forBrowser(browser);
+                    if(usingServer){
+                        builder.usingServer("http://localhost:4444/wd/hub");
+                    }
+                    var driver=builder.build();
+                    
 
                     await driver.get('https://portalx.yzu.edu.tw/PortalSocialVB/Login.aspx');
                     let element=await driver.findElement(By.id('Txt_UserID'));
