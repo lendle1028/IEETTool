@@ -2,18 +2,18 @@ window.$=require('jquery');
 const remote=require('electron').remote;
 const main=remote.require('./main');
 $(document).ready(function(){
-    let options={
-        portalUserName: $("#portalUserName").val(),
-        portalPassword: $("#portalPassword").val(),
-        portalCourseName: $("#portalCourseName").val(),
-        portalExamType: $("#portalExamType").val(),
-        githubUserName: $("#githubUserName").val(),
-        githubPassword: $("#githubPassword").val(),
-        githubCourseName: $("#githubCourseName").val(),
-        githubExamName: $("#githubExamName").val(),
-        driver: $("#driver").val()
-    };
     $("#goButton").click(function(){
+        let options={
+            portalUserName: $("#portalUserName").val(),
+            portalPassword: $("#portalPassword").val(),
+            portalCourseName: $("#portalCourseName").val(),
+            portalExamType: $("#portalExamType").val(),
+            githubUserName: $("#githubUserName").val(),
+            githubPassword: $("#githubPassword").val(),
+            githubCourseName: $("#githubCourseName").val(),
+            githubExamName: $("#githubExamName").val(),
+            driver: $("#driver").val()
+        };
         main.execute(options);
     });
 });

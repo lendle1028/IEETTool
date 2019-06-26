@@ -66,14 +66,16 @@ class GithubDownloadLinkExtractor {
                                     try {
                                         id = await student.findElement(By.className("assignment-repo-github-url"));
                                     } catch (e) { continue; }
-                                    id = "@" + await id.getText();
+                                    id=await id.getText();
                                     let name = null;
                                     for (let s of roster) {
-                                        if (s.id == id) {
+                                        console.log("s.name="+s.name+"id="+id+", =="+(s.name==id));
+                                        if (s.name == id) {
                                             name = s.name;
                                             break;
                                         }
                                     }
+                                    id = "@" + id;
                                     let link = await student.findElement(By.className("repo-detail-item"));
                                     link = await link.getAttribute("href");
                                     if (!link) {
@@ -84,6 +86,7 @@ class GithubDownloadLinkExtractor {
                                     let owner = values[values.length - 4];
                                     let repo = values[values.length - 3];
                                     let url = "https://api.github.com/repos/" + owner + "/" + repo + "/zipball";
+                                    console.log("name="+name+", id="+id);
                                     let studentId = (name.indexOf(",") != -1) ? name.substring(0, name.indexOf(",")) : "";
                                     result.push({
                                         id: id.substring(1),
